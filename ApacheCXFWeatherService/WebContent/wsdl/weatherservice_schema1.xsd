@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?><xs:schema xmlns:tns="http://service.mas.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://service.mas.com/" version="1.0">
+<xs:element name="getTempByWeather" type="tns:getTempByWeather"/>
+<xs:element name="getTempByWeatherResponse" type="tns:getTempByWeatherResponse"/>
+<xs:element name="getWeatherByCityId" type="tns:getWeatherByCityId"/>
+<xs:element name="getWeatherByCityIdResponse" type="tns:getWeatherByCityIdResponse"/>
+<xs:complexType name="getWeatherByCityId">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getWeatherByCityIdResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:weather"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="weather">
+    <xs:sequence>
+      <xs:element name="cityid" type="xs:int"/>
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+      <xs:element name="temp" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getTempByWeather">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:weather"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="getTempByWeatherResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

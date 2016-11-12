@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+ 
+    <!-- 
+    	id attribute can have any name
+    	serviceClass should have name of the Generated Service Class Interface
+    	address must be wsdl url
+     -->
+    
+    
+    
+    <jaxws:client
+    	id= "myclient"
+    	serviceClass="com.mas.service.CalService"
+    	address="http://localhost:8080/ApcaheCXFCalService/services/CalServicePort?wsdl">
+    	
+    	<!-- This publishes the soap request and response at client side-->
+<!-- 		<jaxws:features> -->
+<!-- 			<bean class="org.apache.cxf.feature.LoggingFeature" /> -->
+<!-- 		</jaxws:features> -->
+        
+        <jaxws:inInterceptors>
+        	<ref bean="loginInterceptor"/>
+        </jaxws:inInterceptors>
+        
+        <jaxws:outInterceptors>
+        	<ref bean="logoutInterceptor"/>
+        </jaxws:outInterceptors>
+        
+    </jaxws:client>
+    
+ 	<bean id="loginInterceptor" class="org.apache.cxf.interceptor.LoggingInInterceptor"/>
+	<bean id="logoutInterceptor" class="org.apache.cxf.interceptor.LoggingOutInterceptor"/>
+ 
+</beans>
