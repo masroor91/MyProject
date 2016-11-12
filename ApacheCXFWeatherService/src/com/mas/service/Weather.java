@@ -4,6 +4,14 @@ public class Weather {
 	private int cityid;
 	private String name;
 	private int temp;
+	
+	public Weather(int cityid, String name, int temp) {
+		super();
+		this.cityid = cityid;
+		this.name = name;
+		this.temp = temp;
+	}
+	
 	public int getCityid() {
 		return cityid;
 	}
@@ -21,6 +29,11 @@ public class Weather {
 	}
 	public void setTemp(int temp) {
 		this.temp = temp;
+	}
+
+	@Override
+	public String toString() {
+		return getCityid() + "--" + getName() + "--" + getTemp();
 	}
 	
 	
