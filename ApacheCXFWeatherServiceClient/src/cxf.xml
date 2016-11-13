@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+ 
+    <!-- 
+    	id attribute can have any name
+    	serviceClass should have name of the Generated Service Class Interface
+    	address must be wsdl url
+     -->
+    
+    
+    
+    <jaxws:client
+    	id= "myclient"
+    	serviceClass="com.mas.service.WeatherService"
+    	address="http://localhost:8080/ApacheCXFWeatherService/services/WeatherServicePort?wsdl">
+    	
+    	<!-- This publishes the soap request and response at client side-->
+<!-- 		<jaxws:features> -->
+<!-- 			<bean class="org.apache.cxf.feature.LoggingFeature" /> -->
+<!-- 		</jaxws:features> -->
+        
+        <jaxws:outInterceptors>
+        	<ref bean="outbound-security"/>
+        </jaxws:outInterceptors>
+        
+    </jaxws:client>
+    
+ 	<bean id="outbound-security" class="org.apache.cxf.ws.security.wss4j.WSS4JOutInterceptor">
+ 		<constructor-arg>
+ 			<map>
+ 				<entry key="action" value="UsernameToken"/>
+ 				<!--  <entry key="passwordType" value="PasswordDisgest"/> for encrypted password-->
+ 				<entry key="passwordType" value="PasswordText"/>
+ 				<entry key="user" value="dummy"/>
+ 				<entry key="passwordCallbackClass" value="com.mas.service.ClientPasswordCallback"/>
+ 			</map>
+ 		
+ 		</constructor-arg>
+ 	
+ 	</bean>
+ 
+</beans>

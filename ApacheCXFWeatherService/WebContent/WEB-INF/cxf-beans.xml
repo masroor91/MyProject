@@ -6,11 +6,35 @@
 	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 	<jaxws:endpoint xmlns:tns="http://service.mas.com/" id="weatherservice"
-		implementor="com.mas.service.WeatherService" wsdlLocation="wsdl/weatherservice.wsdl"
+		implementor="#weatherService" wsdlLocation="wsdl/weatherservice.wsdl"
 		endpointName="tns:WeatherServicePort" serviceName="tns:WeatherServiceService"
 		address="/WeatherServicePort">
-		<jaxws:features>
-			<bean class="org.apache.cxf.feature.LoggingFeature" />
-		</jaxws:features>
+		
+<!-- 		<jaxws:features> -->
+<!-- 			<bean class="org.apache.cxf.feature.LoggingFeature" /> -->
+<!-- 		</jaxws:features> -->
+		<jaxws:inInterceptors>
+			<ref bean="inbound-security"/>
+		</jaxws:inInterceptors>
+
+
 	</jaxws:endpoint>
+	
+	<!-- Spring Integration IOC -->
+	<bean id="weatherService" class="com.mas.service.WeatherService">
+		<property name="weatherDao" ref="weatherDao"/>
+	</bean>
+	
+	<bean name="weatherDao" class="com.mas.service.WeatherDao"/>
+	
+	<!-- This is for authentication of user making service call -->
+	<bean id= "inbound-security" class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
+		<constructor-arg>
+			<map>
+				<entry key="action" value="UsernameToken"/>
+				<entry key="passwordCallbackClass" value="com.mas.service.ServerCallbackPasswordHandler"/>
+			</map>
+		</constructor-arg>
+	</bean>
+	
 </beans>
