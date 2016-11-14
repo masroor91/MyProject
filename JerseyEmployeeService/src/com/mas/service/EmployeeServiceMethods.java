@@ -55,7 +55,23 @@ public class EmployeeServiceMethods {
 	}
 	
 	public int createEmployee(Employee emp){
+		Connection con= ConnectionFactory.getConnection();
+		int eid = emp.getEid();
+		String name= emp.getName();
+		int salary= emp.getSalary();
+		int noOfRecordsUpdated=2;
+		try{
+			PreparedStatement creatEmp=con.prepareStatement("Insert into Employee values(?,?,?)");
+			creatEmp.setInt(1, eid);
+			creatEmp.setString(2, name);
+			creatEmp.setInt(3, salary);
+			noOfRecordsUpdated=creatEmp.executeUpdate(); //returns 1 if executed for 1 rows 0 if no rows effected
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
 		
+		return noOfRecordsUpdated;
 	}
 	
 }
