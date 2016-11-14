@@ -4,7 +4,11 @@ public class Address {
 	private int flatno;
 	private String buildingName;
 	private String area;
+
 	
+	public Address() {
+	}
+
 	public Address(int flatno, String buildingName, String area) {
 		super();
 		this.flatno = flatno;

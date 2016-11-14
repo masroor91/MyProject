@@ -6,7 +6,11 @@ public class Student {
 	private int marks;
 	private Address address;
 
+	public Student() {
+	}
+
 	public Student(int sid, String name, int marks) {
+		super();
 		this.sid = sid;
 		this.name = name;
 		this.marks = marks;
