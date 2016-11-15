@@ -9,7 +9,7 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.json.JSONConfiguration;
 
-public class TestceateEmployee {
+public class TestceateEmployeeClient {
 
 	public static void main(String[] args) {
 		

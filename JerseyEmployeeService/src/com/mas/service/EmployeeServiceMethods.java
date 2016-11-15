@@ -137,7 +137,7 @@ public class EmployeeServiceMethods {
 				return 0;
 			}
 			else{
-				PreparedStatement updateEmpSal=con.prepareStatement("Update table Employee set salary=? where eid=?");
+				PreparedStatement updateEmpSal=con.prepareStatement("Update Employee set salary=? where eid=?");
 				updateEmpSal.setInt(1, salary);
 				updateEmpSal.setInt(2, eid);
 				noOfRecordsUpdated =updateEmpSal.executeUpdate();
@@ -160,7 +160,7 @@ public class EmployeeServiceMethods {
 				return 0;
 			}
 			else{
-				PreparedStatement updateEmpSal=con.prepareStatement("Update table Employee set salary=? where eid=?");
+				PreparedStatement updateEmpSal=con.prepareStatement("Update Employee set salary=? where eid=?");
 				updateEmpSal.setInt(1, salary);
 				updateEmpSal.setInt(2, eid);
 				noOfRecordsUpdated =updateEmpSal.executeUpdate();
