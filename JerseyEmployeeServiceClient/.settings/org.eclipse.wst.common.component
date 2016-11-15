@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="JerseyEmployeeServiceClient">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <property name="context-root" value="JerseyEmployeeServiceClient"/>
+        <property name="java-output-path" value="/JerseyEmployeeServiceClient/build/classes"/>
+    </wb-module>
+</project-modules>
