@@ -9,19 +9,20 @@ import java.util.ArrayList;
 
 public class EmployeeServiceMethods {
 	
+	Connection con= ConnectionFactory.getConnection();
+	
 	public ArrayList<Employee> getAllEmployee(){
-		Connection con= ConnectionFactory.getConnection();
 		
 		ArrayList<Employee> list= new ArrayList<Employee>();
 		try{
 			Statement getAllEmp= con.createStatement();
-			String sql="Select * from eployee";
+			String sql="Select * from employee";
 			ResultSet rs=getAllEmp.executeQuery(sql);
 			Employee emp= null;
 			while(rs.next()){
 				int eid=rs.getInt(1);
-				String name=rs.getString(2);
-				int salary=rs.getInt(2);
+				String name= rs.getString(2);
+				int salary=rs.getInt(3);
 				
 				emp= new Employee(eid, name, salary);
 				list.add(emp);
@@ -34,9 +35,10 @@ public class EmployeeServiceMethods {
 		
 		return list;	
 	}
+	
+	
 
 	public Employee getEmployeeById(int eid){
-		Connection con = ConnectionFactory.getConnection();
 		Employee emp= null;
 		try{
 			PreparedStatement getEmpById= con.prepareStatement("Select * from employee where eid=?");
@@ -55,23 +57,145 @@ public class EmployeeServiceMethods {
 	}
 	
 	public int createEmployee(Employee emp){
-		Connection con= ConnectionFactory.getConnection();
 		int eid = emp.getEid();
 		String name= emp.getName();
 		int salary= emp.getSalary();
-		int noOfRecordsUpdated=2;
+		int noOfRecordsUpdated=0;
 		try{
-			PreparedStatement creatEmp=con.prepareStatement("Insert into Employee values(?,?,?)");
-			creatEmp.setInt(1, eid);
-			creatEmp.setString(2, name);
-			creatEmp.setInt(3, salary);
-			noOfRecordsUpdated=creatEmp.executeUpdate(); //returns 1 if executed for 1 rows 0 if no rows effected
+			if (checkRecordAvailability(eid)>0){
+				return 0;
+			}
+			else{
+				PreparedStatement creatEmp=con.prepareStatement("Insert into Employee values(?,?,?)");
+				creatEmp.setInt(1, eid);
+				creatEmp.setString(2, name);
+				creatEmp.setInt(3, salary);
+				noOfRecordsUpdated=creatEmp.executeUpdate();
+			}
+
 		}
 		catch(SQLException e){
 			e.printStackTrace();
 		}
 		
 		return noOfRecordsUpdated;
+	}
+	
+	
+	public int deleteEmployee(Employee emp){
+		int eid= emp.getEid();
+		int noOfRecordsUpdated=0;
+		
+		try{
+			if (checkRecordAvailability(eid)==0){
+				return 0;
+			}
+			else{
+				PreparedStatement deleteEmpById=con.prepareStatement("Delete from Employee where eid=?");
+				deleteEmpById.setInt(1,eid);
+				noOfRecordsUpdated=deleteEmpById.executeUpdate();
+			}
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+			return -1;
+		}
+		
+		return noOfRecordsUpdated;
+	}
+	
+	public int deleteEmployeeById(int eid){
+		
+		int noOfRecordsUpdated=0;
+		
+		try{
+			if (this.checkRecordAvailability(eid)==0){
+				return 0;
+			}
+			else{
+				PreparedStatement deleteEmpById=con.prepareStatement("Delete from Employee where eid=?");
+				deleteEmpById.setInt(1,eid);
+				noOfRecordsUpdated=deleteEmpById.executeUpdate();
+			}
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+			return -1;
+		}
+		
+		return noOfRecordsUpdated;
+	}
+	
+	public int updateEmployeeSalary(Employee emp){
+		
+		int eid=emp.getEid();
+		int salary= emp.getSalary();
+		int noOfRecordsUpdated=0;
+		
+		try{
+			if (checkRecordAvailability(eid)==0){
+				return 0;
+			}
+			else{
+				PreparedStatement updateEmpSal=con.prepareStatement("Update table Employee set salary=? where eid=?");
+				updateEmpSal.setInt(1, salary);
+				updateEmpSal.setInt(2, eid);
+				noOfRecordsUpdated =updateEmpSal.executeUpdate();
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return -1;
+		}
+		
+		return noOfRecordsUpdated;
+	}
+	
+	public int updateEmployeeSalaryById(int eid, int salary){
+		
+		int noOfRecordsUpdated=0;
+		
+		try{
+			if (this.checkRecordAvailability(eid)==0){
+				return 0;
+			}
+			else{
+				PreparedStatement updateEmpSal=con.prepareStatement("Update table Employee set salary=? where eid=?");
+				updateEmpSal.setInt(1, salary);
+				updateEmpSal.setInt(2, eid);
+				noOfRecordsUpdated =updateEmpSal.executeUpdate();
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return -1;
+		}
+		
+		return noOfRecordsUpdated;
+	}
+	
+	public int checkRecordAvailability(int eid){
+		
+		int recordAvailable=0;
+		try{
+			PreparedStatement checkRecord= con.prepareStatement("Select * from Employee where eid=?");
+			checkRecord.setInt(1, eid);
+			ResultSet rs= checkRecord.executeQuery();
+			
+			if(!rs.next()){
+				recordAvailable=0; //If Result set dont have any records
+			}
+			else{
+				recordAvailable=1; //If Resultset  is present
+			}
+			
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+			return -1;
+		}
+		
+		return recordAvailable;
 	}
 	
 }

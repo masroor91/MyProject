@@ -10,7 +10,7 @@ public class ConnectionFactory {
 		
 		try{
 			Class.forName("com.ibm.db2.jcc.DB2Driver");
-			String url="jdbc:db2://localhost/Mas";
+			String url="jdbc:db2://PC181461.cts.com:50000/MAS";
 			String userName="db2Admin5";
 			String pwd="Admin@123";
 			con= DriverManager.getConnection(url, userName, pwd);
@@ -35,7 +35,5 @@ public class ConnectionFactory {
 		return con;
 	
 	}
-	
-	
 
 }
