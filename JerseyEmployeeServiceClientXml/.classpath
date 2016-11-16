@@ -13,5 +13,6 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="D:/git/MyProject/MyProject/JerseyEmployeeService/WebContent/WEB-INF/lib/jersey-client-1.19.1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
