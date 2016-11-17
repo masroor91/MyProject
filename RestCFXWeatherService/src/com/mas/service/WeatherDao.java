@@ -15,16 +15,25 @@ public class WeatherDao {
 		List<Weather> list = new ArrayList<Weather>();
 		
 		try{
-			Statement stmAll=con.createStatement();
+			Statement stmAll=con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			String sql="Select * from Weather";
 			ResultSet rs=stmAll.executeQuery(sql);
 			Weather w=null;
-			while(rs.next()){
-				int cityid=rs.getInt(1);
-				String name= rs.getString(2);
-				int temp=rs.getInt(3);
-				w= new Weather(cityid, name, temp);
-				list.add(w);
+			if (!rs.next()){
+				list=null;
+			}
+			else{
+				rs.beforeFirst();
+				while(rs.next()){
+					
+					int cityid=rs.getInt(1);
+					String name= rs.getString(2);
+					int temp=rs.getInt(3);
+					
+					w= new Weather(cityid, name, temp);
+					System.out.println(w);
+					list.add(w);
+				}
 			}
 		}
 		catch(SQLException e){
@@ -44,8 +53,9 @@ public class WeatherDao {
 			}
 			else if (flag>0){
 				
-			
-				PreparedStatement stmtgetWeatherByCityId= con.prepareStatement("Select * from Weather where cityid=?");
+				String sql="Select * from Weather where cityid=?";
+				PreparedStatement stmtgetWeatherByCityId= con.prepareStatement(sql, 
+						ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		
 				stmtgetWeatherByCityId.setInt(1, cityid);
 		
@@ -54,7 +64,7 @@ public class WeatherDao {
 				if (rs.next()){
 					int cid= rs.getInt(1);
 					String name=rs.getString(2);
-					int temp=rs.getInt(2);
+					int temp=rs.getInt(3);
 					w= new Weather(cid , name, temp);
 				}
 			}
@@ -68,7 +78,6 @@ public class WeatherDao {
 		}
 		
 		return w;
-		
 	}
 	
 	public Weather getWeatherByCity(String cityname) {
@@ -88,7 +97,7 @@ public class WeatherDao {
 				if (rs.next()){
 					int cid= rs.getInt(1);
 					String name=rs.getString(2);
-					int temp=rs.getInt(2);
+					int temp=rs.getInt(3);
 					w= new Weather(cid , name, temp);
 				}
 			}

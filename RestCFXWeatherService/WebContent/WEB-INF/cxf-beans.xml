@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+	
+	<bean id="jsonProvider" class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>
+	
+<!-- 	<jaxws:endpoint xmlns:tns="http://service.mas.com/" id="calservice" -->
+<!-- 		implementor="com.mas.service.CalService" wsdlLocation="wsdl/calservice.wsdl" -->
+<!-- 		endpointName="tns:CalServicePort" serviceName="tns:CalServiceService" -->
+<!-- 		address="/CalServicePort"> -->
+		
+<!-- 		 This publishes the soap request and response at server side -->
+<!-- 		<jaxws:features> -->
+<!--  			<bean class="org.apache.cxf.feature.LoggingFeature" /> -->
+<!--  		</jaxws:features> -->
+
+<!-- 		<jaxws:inInterceptors> -->
+<!-- 				<ref bean="loginInterceptor"/> -->
+<!-- 		</jaxws:inInterceptors> -->
+		
+<!-- 		<jaxws:outInterceptors> -->
+<!-- 				<ref bean="logoutInterceptor"/> -->
+<!-- 		</jaxws:outInterceptors> -->
+		
+<!-- 	</jaxws:endpoint> -->
+	
+	<jaxrs:server id="weatherServiceRest" address="/weatherService">
+		<jaxrs:serviceBeans>
+			<ref bean="weatherService"/>
+		</jaxrs:serviceBeans>
+		
+		<jaxrs:providers>
+			<ref bean="jsonProvider"/>
+		</jaxrs:providers>
+		
+		<jaxrs:extensionMappings>
+			<entry key="xml" value="application/xml"/>
+			<entry key="json" value="application/json"/>
+		</jaxrs:extensionMappings>
+	
+	</jaxrs:server>
+	
+	<bean id="weatherService" class="com.mas.service.WeatherService">
+		<property name="weatherDao" ref="weatherDao"></property>
+	</bean>
+	
+	<bean id= "weatherDao" class="com.mas.service.WeatherDao"/>
+	
+<!-- 	<bean 	id="loginInterceptor" class="org.apache.cxf.interceptor.LoggingInInterceptor"/> -->
+<!-- 	<bean 	id="logoutInterceptor" class="org.apache.cxf.interceptor.LoggingOutInterceptor"/> -->
+</beans>

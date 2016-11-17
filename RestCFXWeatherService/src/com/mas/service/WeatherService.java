@@ -16,14 +16,23 @@ import javax.ws.rs.core.Response;
 @Path("/weatherService")
 public class WeatherService {
 	
-	WeatherDao dao = new WeatherDao();
+	WeatherDao weatherDao;
+
+	public WeatherDao getWeatherDao() {
+		return weatherDao;
+	}
+
+	public void setWeatherDao(WeatherDao weatherDao) {
+		this.weatherDao = weatherDao;
+	}
 	
+
 	@GET
 	@Path("/getAllWeather")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response getAllWeather(){
 		Response res=null;
-		List<Weather> list = dao.getAllWeather();
+		List<Weather> list = weatherDao.getAllWeather();
 		if (list!=null){
 			GenericEntity<List<Weather>> generic = new GenericEntity<List<Weather>>(list){};
 			res =Response.status(200).entity(generic).build();
@@ -39,7 +48,7 @@ public class WeatherService {
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response getWeatherByCityId(@QueryParam("cityid") int cityid ){
 		Response res=null;
-		Weather w= dao.getWeatherByCityId(cityid);
+		Weather w= weatherDao.getWeatherByCityId(cityid);
 		if (w!=null){
 			res= Response.status(200).entity(w).build();
 		}
@@ -54,7 +63,7 @@ public class WeatherService {
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response getWeatherByCityId(@QueryParam("cityname") String cityid ){
 		Response res=null;
-		Weather w= dao.getWeatherByCity(cityid);
+		Weather w= weatherDao.getWeatherByCity(cityid);
 		if (w!=null){
 			res= Response.status(200).entity(w).build();
 		}
@@ -71,7 +80,7 @@ public class WeatherService {
 	public Response createWeather(Weather w){
 		Response res=null;
 		
-		int flag=dao.createWeather(w);
+		int flag=weatherDao.createWeather(w);
 		if(flag>0){
 			res= Response.status(200).entity("Weather Object inserted into Database to successfully").build();
 		}
@@ -88,7 +97,7 @@ public class WeatherService {
 	@Path("/deleteWeatherByCityId/{cityid}")
 	public Response deleteWeatherByCityId(@PathParam("cityid") int cityid){
 		Response res= null;
-		int flag=dao.deleteWeatherByCityId(cityid);
+		int flag=weatherDao.deleteWeatherByCityId(cityid);
 		if(flag>0){
 			res= Response.status(200).entity("Weather with city id " + cityid+" deleted from Database successfully").build();
 		}
@@ -106,7 +115,7 @@ public class WeatherService {
 	@Path("/updateWeatherTempByCityId")
 	public Response updateWeatherTempByCityId(@QueryParam("cityid") int cityid, @QueryParam("temp") int temp){
 		Response res=null;
-		int flag= dao.updateWeatherTempByCityId(cityid, temp);
+		int flag= weatherDao.updateWeatherTempByCityId(cityid, temp);
 		
 		if(flag>0){
 			res= Response.status(200).entity("Temperature of City id " + cityid+ " in Weather table is updated with temperature " + temp).build();
@@ -125,7 +134,7 @@ public class WeatherService {
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response updateWeatherTemp(Weather w){
 		Response res=null;
-		int flag= dao.updateWeatherTemp(w);
+		int flag= weatherDao.updateWeatherTemp(w);
 		int cityid=w.getCityid();
 		int temp=w.getTemp();
 		if(flag>0){

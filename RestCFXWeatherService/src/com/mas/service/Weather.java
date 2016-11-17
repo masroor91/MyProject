@@ -9,8 +9,10 @@ public class Weather {
 	private String name;
 	private int temp;
 	
-	
-	
+	public Weather() {
+		super();
+	}
+
 	public Weather(int cityid, String name, int temp) {
 		super();
 		this.cityid = cityid;
