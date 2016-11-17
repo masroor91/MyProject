@@ -9,10 +9,10 @@ public class ConnectionFactory {
 		Connection con= null;
 		
 		try{
-			Class.forName("com.ibm.db2.jcc.DB2Driver");
-			String url="jdbc:db2://PC181461.cts.com:50000/MAS";
-			String userName="db2admin5";
-			String pwd="Admin@123";
+			Class.forName("com.mysql.jdbc.Driver");
+			String url="jdbc:mysql://localhost/Employee";
+			String userName="root";
+			String pwd="root";
 			
 			con= DriverManager.getConnection(url, userName, pwd);
 			

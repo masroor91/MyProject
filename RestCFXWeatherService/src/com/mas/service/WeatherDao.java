@@ -186,8 +186,8 @@ public class WeatherDao {
 			
 				PreparedStatement stmtupdateWeatherByCityId= con.prepareStatement("Update Weather set temp=? where cityid=?");
 		
-				stmtupdateWeatherByCityId.setInt(1, cityid);
-				stmtupdateWeatherByCityId.setInt(2, temp);
+				stmtupdateWeatherByCityId.setInt(1, temp);
+				stmtupdateWeatherByCityId.setInt(2, cityid);
 		
 				noOfRecordsUpdated= stmtupdateWeatherByCityId.executeUpdate();
 		
@@ -218,8 +218,8 @@ public class WeatherDao {
 			
 				PreparedStatement stmtupdateWeatherByCityId= con.prepareStatement("Update Weather set temp=? where cityid=?");
 		
-				stmtupdateWeatherByCityId.setInt(1, cityid);
-				stmtupdateWeatherByCityId.setInt(2, temp);
+				stmtupdateWeatherByCityId.setInt(1, temp);
+				stmtupdateWeatherByCityId.setInt(2, cityid);
 		
 				noOfRecordsUpdated= stmtupdateWeatherByCityId.executeUpdate();
 		

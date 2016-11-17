@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -85,7 +86,7 @@ public class WeatherService {
 			res= Response.status(200).entity("Weather Object inserted into Database to successfully").build();
 		}
 		else if(flag==0){
-			res= Response.status(201).entity("Weather Object insertion failed").build();
+			res= Response.status(201).entity("Could not insert as Weather with City Id "+ w.getCityid()+" is already present in the Database").build();
 		}
 		else{
 			res = Response.status(202).entity("SQL Exception Ocurred").build();
@@ -129,7 +130,7 @@ public class WeatherService {
 		return res;
 	}
 	
-	@GET
+	@PUT
 	@Path("/updateWeatherTemp")
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response updateWeatherTemp(Weather w){
